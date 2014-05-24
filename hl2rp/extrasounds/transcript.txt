@@ -1,0 +1,15 @@
+Transcript for HL2RP sounds
+
+->ration.wav
+-->"Attention Community.Rations now in effect.Co-operation with your Civil Protection team permit full ration rewards."
+
+->rationreminder.wav
+-->"Citizen's Reminder,Rations now in effect.Co-operation with your Civil Protection team permit full ration rewards."
+
+->rationend.wav
+-->"Attention Community.Rations now inactive"
+
+->overwatch.wav
+-->"Overwatch acknowledges critical anti civil activity in this community, Overwatch Augmentation forms dispatched and inbound."
+
+These sounds are released under discretion of Valve Corporation. Valve at any time as the original owners of these sound files can request me to remove/identify themselves in these files.
