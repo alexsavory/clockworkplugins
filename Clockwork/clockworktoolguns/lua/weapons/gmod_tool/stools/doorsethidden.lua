@@ -7,7 +7,7 @@ TOOL.ConfigName		= ""
 if CLIENT then
 	language.Add( "Tool.doorsethidden.name", "Door Set Hidden" )
 	language.Add( "Tool.doorsethidden.desc", "Make a door hidden." )
-	language.Add( "Tool.doorsethidden.0", "Primary: Set   (Todo: Secondary: Copy   Reload: Reset)" )
+	language.Add( "Tool.doorsethidden.0", "Primary: Set  " )
 	language.Add( "Tool.doorsethidden.descriptiontext", "Is Hidden?" )
 	language.Add( "Tool.doorsethidden.toggle", "I have no idea what it does." )
 	language.Add( "Tool.doorsethidden.toggle.help", "Honestly, I don't know. I think it does the same as doorsetfalse." )

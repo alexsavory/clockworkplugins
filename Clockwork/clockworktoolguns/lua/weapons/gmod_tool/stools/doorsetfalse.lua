@@ -7,7 +7,7 @@ TOOL.ConfigName		= ""
 if CLIENT then
 	language.Add( "Tool.doorsetfalse.name", "Door Set False" )
 	language.Add( "Tool.doorsetfalse.desc", "Make a door false." )
-	language.Add( "Tool.doorsetfalse.0", "Primary: Set  (Todo: Secondary: Copy   Reload: Reset)" )
+	language.Add( "Tool.doorsetfalse.0", "Primary: Set " )
 	language.Add( "Tool.doorsetfalse.descriptiontext", "Is False?" )
 	language.Add( "Tool.doorsetfalse.toggle", "Toggle 'Falseness'" )
 	language.Add( "Tool.doorsetfalse.toggle.help", "Ticking this will remove any settings on a door, leaving it unticked will make it ownable." )

@@ -7,7 +7,7 @@ TOOL.ConfigName		= ""
 if CLIENT then
 	language.Add( "Tool.doorsetunownable.name", "Door Set Unownable" )
 	language.Add( "Tool.doorsetunownable.desc", "Make a door unownable." )
-	language.Add( "Tool.doorsetunownable.0", "Primary: Set   (Todo: Secondary: Copy   Reload: Reset)" )
+	language.Add( "Tool.doorsetunownable.0", "Primary: Set  " )
 	language.Add( "Tool.doorsetunownable.descriptiontext", "The Description" )
 	language.Add( "Tool.doorsetunownable.nametext", "The Name" )
 end
