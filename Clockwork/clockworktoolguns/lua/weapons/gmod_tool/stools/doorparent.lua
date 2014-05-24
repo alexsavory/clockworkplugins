@@ -17,7 +17,7 @@ end
 function TOOL:LeftClick( tr )
 
 	local Ply = self:GetOwner()
-	
+	local Clockwork = Clockwork
 
 
 if not Ply:IsAdmin() then 
@@ -46,7 +46,7 @@ end
 function TOOL:RightClick( tr )
 
 	local ply = self:GetOwner()
-
+	local Clockwork = Clockwork
 
 if not ply:IsAdmin() then 
 	return false

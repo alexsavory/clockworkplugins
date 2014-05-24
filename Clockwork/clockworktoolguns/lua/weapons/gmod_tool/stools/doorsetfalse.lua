@@ -18,7 +18,7 @@ TOOL.ClientConVar[ "toggle" ]		= ""
 
 
 function TOOL:LeftClick( tr )
-
+local Clockwork = Clockwork
 	local ply = self:GetOwner()
 	
 	local toggle = self:GetClientInfo( "toggle" )

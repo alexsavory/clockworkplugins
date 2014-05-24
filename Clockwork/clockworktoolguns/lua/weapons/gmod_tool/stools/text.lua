@@ -6,18 +6,21 @@ TOOL.ConfigName		= ""
 
 if CLIENT then
 	language.Add( "Tool.text.name", "Text Tool" )
-	language.Add( "Tool.text.desc", "Place some fancy text. Color coming soon!" )
+	language.Add( "Tool.text.desc", "Place some fancy colorful text!" )
 	language.Add( "Tool.text.0", "Primary: Add Secondary: Remove" )
-
+	language.Add( "Tool.text.text", "Text" )
 end
 
 TOOL.ClientConVar[ "text" ]		= ""
 TOOL.ClientConVar[ "scale" ]		= ""
-
+TOOL.ClientConVar[ "r" ] = 255
+TOOL.ClientConVar[ "g" ] = 0
+TOOL.ClientConVar[ "b" ] = 255
+TOOL.ClientConVar[ "a" ] = 255
 
 function TOOL:LeftClick( tr )
 
-
+local Clockwork = Clockwork
 
 	local ply = self:GetOwner()
 	if not ply:IsAdmin() then 
@@ -26,9 +29,16 @@ function TOOL:LeftClick( tr )
 	
 	if (tr.Entity:GetClass() == "player") then return false end
 	if (CLIENT) then return true end
-
+	-- Process text
+	local r =  self:GetClientInfo( "r" )
+	local g =  self:GetClientInfo( "g" )
+	local b =  self:GetClientInfo( "b" )
+	local a =  self:GetClientInfo( "a" )
 	local usertext = self:GetClientInfo( "text" )
+
+	local finishedtext = "<color="..r..","..g..","..b..","..a..">"..usertext
 	local scale = self:GetClientInfo( "scale" )
+
 
 	local traceLine = ply:GetEyeTraceNoCursor();
 	local fScale = scale
@@ -38,7 +48,7 @@ function TOOL:LeftClick( tr )
 	end;
 	
 	local data = {
-		text = usertext,
+		text = finishedtext,
 		scale = fScale,
 		angles = traceLine.HitNormal:Angle(),
 		position = traceLine.HitPos + (traceLine.HitNormal * 1.25)
@@ -58,7 +68,7 @@ end
 
 
 function TOOL:RightClick( tr )
-
+local Clockwork = Clockwork
 	local ply = self:GetOwner()
 	if not ply:IsAdmin() then 
 		return false
@@ -99,12 +109,15 @@ end
 function TOOL.BuildCPanel( CPanel )
 
 	-- HEADER
-	CPanel:AddControl( "Header", { Text = "#tool.texttool.name", Description	= "#tool.texttool.desc" }  )
+	CPanel:AddControl( "Header", { Text = "#tool.text.name", Description	= "#tool.text.desc" }  )
 
 	local CVars = {"text_text" }
 	local CVars = {"text_scale" }
-									 
-	CPanel:AddControl( "TextBox", { Label = "#tool.doorsetownable.text",
+	local CVars = {"text_r" }
+	local CVars = {"text_g" }
+	local CVars = {"text_b" }
+	local CVars = {"text_a" }							 
+	CPanel:AddControl( "TextBox", { Label = "#tool.text.text",
 									 MaxLenth = "50",
 									 Command = "text_text" } )
 
@@ -114,4 +127,16 @@ function TOOL.BuildCPanel( CPanel )
 			Max		= 20,
 			Command = "text_scale",
 			Description = "Size of the text"}	 )
+
+	CPanel:AddControl("Color", {
+			Label = "Text Color",
+			Red = "text_r",
+			Green = "text_g",
+			Blue = "text_b",
+			Alpha = "text_a",
+			ShowHSV = 1,
+			ShowRGB = 1,
+			Multiplier = 255
+		})
+
 end

@@ -15,7 +15,7 @@ end
 
 
 function TOOL:LeftClick( tr )
-
+	local Clockwork = Clockwork
 	local Ply = self:GetOwner()
 	
 
