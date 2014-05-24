@@ -1,21 +1,20 @@
 Tru's Clockwork Plugins
 =========
 
-Here are all my plugins for Clockwork. These will work with any schema.
+Here are all my plugins for HL2RP . These will only work with CWHL2RP.
 
 
 Installation
 --------------
 
-The folders in here are all in plugin format, all you have to do is upload the plugins you want to your server.
+The folders in here are all in plugin format, all you have to do is upload the plugins you want to your server's cwhl2rp/plugins .
 
 ##### Configure Plugins. If a plugin needs configuring, instructions will be in each plugin folder.
 
 Exceptions 
 --------------
-* clockwork/clockworktoolguns - This is in the form of an **ADDON**. This will go in your garrysmod/addons
-* clockwork/donation-coderedeemer - This has two parts, a webserver and gameserver part. Instructions included.
-* clockwork/webdatabase - This has to be uploaded to a website not the game server.
+* clockwork/combinedatapad - This has two parts, a webserver and gameserver part. Instructions included.
+* clockwork/webrosters - This has to be uploaded to a website not the game server.
 
 
 
