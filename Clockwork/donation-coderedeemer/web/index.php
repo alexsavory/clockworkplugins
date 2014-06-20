@@ -32,6 +32,16 @@ You select your package and pay for it on paypal, once you have you should recie
 Enter the server and type /redeem into the chat and enter your code!<br>
 <b>All codes are one time use.</b>
 </div>
+<?php
+if ($payPalURL != "https://www.paypal.com/cgi-bin/webscr") {
+    echo '
+<div class="alert alert-danger"><h3>Warning!</h3>
+We are currently testing our donation system. Please do not buy anything.<br> 
+
+</div>
+    ';
+}
+?>
         <div class="row">
   
 
@@ -50,7 +60,7 @@ Enter the server and type /redeem into the chat and enter your code!<br>
                     '.$option["description"].'
                 </div>
                 <div class="panel-footer">';
-                echo    "<form action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\" target=\"_top\">
+                echo    "<form action=\"".$payPalURL ."\" method=\"post\" target=\"_top\">
                             <input type=\"hidden\" name=\"cmd\" value=\"_xclick\">
                             <input type=\"hidden\" name=\"business\" value=\"" . $config_merchant_email . "\">
                             <input type=\"hidden\" name=\"lc\" value=\"GB\">
