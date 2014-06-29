@@ -32,11 +32,21 @@ if ($p->validate_ipn()) {
     $txn_id           = $p->ipn_data['txn_id'];
     $receiver_email   = $p->ipn_data['receiver_email'];
     $payer_email      = $p->ipn_data['payer_email'];
+    
+
+    $txt_log = "[".date("m.d.y H:i:s")."] TransactionID: $txn_id  \n";
+    file_put_contents($file, $txt_log, FILE_APPEND | LOCK_EX);
 
 // Refund Protection
 if($payment_status == "Refunded" || $payment_status == "Reversed")  
 {
 $sql = new mysqli($dbhost,$dbuser,$dbpass,$dbname);
+
+if (mysqli_connect_errno())
+  {
+  $error = "Failed to connect to MySQL: " . mysqli_connect_error();
+  file_put_contents($file, $error, FILE_APPEND | LOCK_EX);
+  }
 $trans =  "update activationkeys set used = 1 where transid = ".$txn_id.";";
 if ( $sql->query($trans) ) {
   $status = "[".date("m.d.y H:i:s")."] Refund protection for donation transid ".$txn_id.". Refund Status: ".$payment_status."\n [".date("m.d.y H:i:s")."] End of notification \n";
@@ -86,6 +96,12 @@ die();
 
 /* make your connection */
 $sql = new mysqli($dbhost,$dbuser,$dbpass,$dbname);
+if (mysqli_connect_errno())
+  {
+  $error = "Failed to connect to MySQL: " . mysqli_connect_error();
+  file_put_contents($file, $error, FILE_APPEND | LOCK_EX);
+  }
+
 $trans =  "INSERT INTO notifications VALUES( DEFAULT, '$item_name','$item_number','$payment_status','$payment_amount','$payment_currency','$txn_id','$receiver_email','$payer_email')";
 if ( $sql->query($trans) ) {
   $status = "[".date("m.d.y H:i:s")."] A new transaction has been added with the `id` of {$sql->insert_id}.\n";
