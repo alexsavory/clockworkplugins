@@ -1,7 +1,5 @@
 local PLUGIN = PLUGIN;
 
-require("mysqloo");
-
 -- Set your donation things here and obviously add more, example commands are given
 -- This requires Lua knowledge.
 -- These packages should match up with the web hosting packages. NUMBER WISE ASWELL!
@@ -79,8 +77,6 @@ function CheckCode(ply, code)
 					end);
 				queryObj2:Pull();
 			end;
-
-			queryObj:Push()
 		end);
 	queryObj:Pull();
 	
