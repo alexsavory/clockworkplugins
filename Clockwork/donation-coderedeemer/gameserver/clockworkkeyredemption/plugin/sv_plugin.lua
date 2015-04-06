@@ -79,8 +79,6 @@ function CheckCode(ply, code)
 					end);
 				queryObj2:Pull();
 			end;
-
-			queryObj:Push()
 		end);
 	queryObj:Pull();
 	
