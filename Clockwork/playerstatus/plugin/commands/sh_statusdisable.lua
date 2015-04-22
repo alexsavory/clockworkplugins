@@ -7,7 +7,7 @@
 --]]
 
 local COMMAND = Clockwork.command:New("statusdisable");
-COMMAND.tip = "Enable your 'Status'";
+COMMAND.tip = "Disable your 'Status'";
 COMMAND.flags = CMD_DEFAULT;
 
 -- Called when the command has been run.
