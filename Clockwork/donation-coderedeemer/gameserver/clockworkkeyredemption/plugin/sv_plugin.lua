@@ -86,7 +86,7 @@ function CheckCode(ply, code)
 end;
 
 function PLUGIN:ClockworkDatabaseConnected()
-	if (!Clockwork.liteSql) then
+	if (!Clockwork.database.liteSql) then
 		local CreateKeyTableQuery = [[
 			CREATE TABLE IF NOT EXISTS `activationkeys` (
 				`ID` INTEGER(11) PRIMARY KEY AUTO_INCREMENT,
