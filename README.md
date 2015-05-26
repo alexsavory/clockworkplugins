@@ -4,6 +4,10 @@ Tru's Clockwork Plugins
 Here are all my plugins for Clockwork and its Schema's
 
 
+Please Note:
+--------------
+Most of my plugins here are on the Cloud Sixteen plugin center. (http://plugins.coudsixteen.com) This means you don't have to download and install them yourself!
+
 Installation
 --------------
 
