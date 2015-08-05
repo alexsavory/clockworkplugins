@@ -50,7 +50,7 @@ Support
 ----
 I provide support for all my plugins including debuging and installation for plugins which have **webserver** parts.
 
-You can contact me at: tru@trurascalz.tk
+You can contact me at: http://trurascalz.tk
 
 
     
