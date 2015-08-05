@@ -15,6 +15,16 @@ The folders in Clockwork or a schema folder are all in plugin format, all you ha
 
 ##### Configure Plugins. If a plugin needs configuring, instructions will be in each plugin folder.
 
+Updates/Roadmap
+--------------
+
+Any updates I plan will appear in my Trello: https://trello.com/b/jA5mzRbM/my-clockwork-todo-board
+
+Issues/Problems
+--------------
+
+You can find various methods to contact me @ http://trurascalz.tk or post an issue on this Github
+
 Exceptions 
 --------------
 * clockwork/clockworktoolguns - This is in the form of an ADDON. This will go in your garrysmod/addons
