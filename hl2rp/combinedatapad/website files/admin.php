@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
  * Project: combinedatapad
  * File: admin.php
