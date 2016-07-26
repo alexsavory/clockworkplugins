@@ -1,2 +1,3 @@
 Images
-https://raw.githubusercontent.com/trurascalz/clockworkpluginimages/master/hl2rp/combinereport.png
+http://alexsavory.me/projects/projectimages/combinereport/tools.png
+http://alexsavory.me/projects/projectimages/combinereport/tools.pnghttp://alexsavory.me/projects/projectimages/combinereport/tools.png
