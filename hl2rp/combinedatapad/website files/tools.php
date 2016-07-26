@@ -1,140 +1,164 @@
-<?php session_start();
-// You shouldnt be here if your not logged in
-// Get Unit and set session
-require('include/config.php');
-
-
-
+<?php
+session_start();
+/**
+ * Project: combinedatapad
+ * File: tools.php
+ * Created by PhpStorm.
+ * User: Alex
+ * Created: 06/08/2015 07:25 PM
+ * This remains property of Alex Savory
+ */
 
 if (!isset($_SESSION['unitid'])) {
-$con = mysql_connect($address,$user,$pass);
-if (!$con)
-  {
-  echo('<div class="alert alert-error">' . mysql_error() . '. Please tell the owner.</div>');
-  }
-
-
-mysql_select_db($database, $con);
-$result = mysql_query("SELECT * FROM characters WHERE (_Faction = 'Metropolice Force' OR _Faction = 'Overwatch Transhuman Arm') AND _Name =  '".mysql_real_escape_string($_POST['unit'])."' ");
-
-
-while($row = @mysql_fetch_array($result))
-  {
-    $_SESSION['unitid'] = $row['_Key'];
-    $_SESSION['unitname'] = $row['_Name'];
-  }
+    header("Location:index.php?nounit");
 }
+if (!isset($_SESSION['steamlogin'])) {
+    header("Location:index.php?nosteam");
+}
+require('include/functions.php');
+require('include/configuration.php');
 
-       if (!isset($_SESSION['unitid'])) {
-header("Location:index.php");
-       }
-       if (!isset($_SESSION['steamlogin'])) {
-header("Location:index.php");
-       }
+$mysqli = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="bs/ico/favicon.png">
 
-    <title>Resident Search</title>
+
+    <title>Tools & Accessories</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bs/css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <style type="text/css">
+        body {
+            background: -webkit-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Chrome 10+, Saf5.1+ */
+            background:    -moz-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* FF3.6+ */
+            background:     -ms-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* IE10 */
+            background:      -o-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Opera 11.10+ */
+            background:         linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* W3C */
+            font-family: 'Raleway', sans-serif;
+        }
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="bs/js/html5shiv.js"></script>
-      <script src="bs/js/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-
-    <div class="container">
-<br>
-      <?php include('header.php');
-if ($_GET['action'] == "citizenlist" ) {
-  echo '
-  <div class="page-header">
-  <h1>Query Database<small> Find Current Residents by either:</small></h1>
-</div>
-  <div class="panel panel-default">
-  <div class="panel-body">
-<form action="results.php" method="post">
-  <div class="form-group">
-    <label for="citizenid" class="col-lg-1 control-label">CitizenID</label>
-    <div class="col-lg-2">
-      <input type="text" class="form-control" name="citizenid" placeholder="CitizenID" maxlength="10">
-    </div>
-  </div>
-
-      <button type="submit" class="btn btn-default">Search</button>
-
-    <input type="hidden" name="action" value="citizenid" />
-</form>
-  </div>
-</div>
-<h1>Or</h1>
-  <div class="panel panel-default">
-  <div class="panel-body">
-<form action="results.php" method="post">
-  <div class="form-group">
-    <label for="name" class="col-lg-1 control-label">Name</label>
-    <div class="col-lg-2">
-      <input type="text" class="form-control" name="name" placeholder="Name" maxlength="10">
-    </div>
-  </div>
-
-      <button type="submit" class="btn btn-default">Search</button>
-
-    <input type="hidden" name="action" value="citizenname" />
-</form>
-  </div>
-</div>
-
-
-  ';
-}
-if ($_POST['action'] == "deletereport" ) {
-
-$con1 = mysql_connect($address,$user,$pass);
-if (!$con1)
-  {
-  echo('<div class="alert alert-error">Error! ' . mysql_error() . '. Please tell the owner.</div>');
-  }
-
-// Get report variables
-    $id = mysql_real_escape_string($_POST['key']);
-
-
-
-mysql_select_db($database, $con1);
-$result = mysql_query("DELETE FROM `combinereports` WHERE `RID` = '".$id."' ");
-if (!$result) {
-    die('<div class="alert alert-danger"><b>Invalid Query. Tell the owner<br> '.mysql_error().'</div>');
-} else {
-
-  echo '<div class="alert alert-success"><b>Deleted</b> <a href="dash.php">Go To dashboard</a></div>';
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
 }
 
-  }
+@-webkit-keyframes spin2 {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
 
-?>
+@keyframes spin {
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+    to {
+        transform: scale(1) rotate(360deg);
+    }
+}
 
-    </div> <!-- /container -->
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- C16 Admin Javascript-->
+    <script src="js/ajaxpages.js?2"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Static navbar -->
+    <?php
+    include("header.php");
+    ?>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="row">
+        <?php
+        if(isset($_GET["msg"])){
+            $msg = $_GET["msg"];
+            echo '<div class="alert alert-info"><b>';
+            switch ($msg){
+                case "already_logged_in":
+                    echo 'Your already logged in! To switch user please logout first!';
+                    break;
+            }
+            echo '</b></div>';
+        }
+        ?>
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center"><b><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Resident Search</b></h3>
+                </div>
+                <div class="panel-body">
+                    <a onclick="LoadPage('Resident')"><button type="button" class="btn btn-primary btn-lg btn-block">Search</button></a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center"><b><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> Superior Commanders</b></h3>
+                </div>
+                <div class="panel-body">
+                    <a onclick="LoadPage('Leaders')"><button type="button" class="btn btn-primary btn-lg btn-block">View</button></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center"><b><span class="glyphicon glyphicon-king" aria-hidden="true"></span> City Administrators</b></h3>
+                </div>
+                <div class="panel-body">
+                    <a onclick="LoadPage('CityAdmin')"><button type="button" class="btn btn-primary btn-lg btn-block">View</button></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+    	<div class="container well" id="mainpanel">
+    		<div class="alert alert-warning" role="alert">Please Select An Action!</div>
+    	</div>
+    </div>
+</div> <!-- /container -->
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="bs/js/jquery.js"></script>
-    <script src="bs/js/bootstrap.min.js"></script>
-  </body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</body>
 </html>
+
+

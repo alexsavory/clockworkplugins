@@ -1,57 +1,67 @@
-<!-- Static navbar -->
-      <div class="navbar navbar-default">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="dash.php">Combine Report Console</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
 <?php
-include('include/config.php');
-include('include/functions.php');
-        if ($debug == "1") {
-           error_reporting(E_ALL);
-        }
-echo '
-<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="tools.php?action=citizenlist"><span class="glyphicon glyphicon-home"></span> Resident Search</a></li>';
-if(basename($_SERVER['PHP_SELF']) == 'add.php') {echo '<li class="active"><a href="addreport.php"><span class="glyphicon glyphicon-pencil active"></span> Add Report</a></li> <title>Add Report</title>';} else {echo '<li><a href="addreport.php"><span class="glyphicon glyphicon-pencil"></span> Add Report</a></li>';}
-if(basename($_SERVER['PHP_SELF']) == 'myreports.php') {echo '<li class="active"><a href="myreports.php"><span class="glyphicon glyphicon-th-list"></span> View my reports</a></li> <title>Dashboard</title>';} else {echo '<li><a href="myreports.php"><span class="glyphicon glyphicon-th-list"></span> View my reports</a></li>';}
-echo '
-              </ul>
-            </li>
-';
+/**
+ * Project: combinedatapad
+ * File: header.php
+ * Created by PhpStorm.
+ * User: Alex
+ * Created: 06/08/2015 07:40 PM
+ * This remains property of Alex Savory
+ */
+include("include/configuration.php");
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 ?>
 
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <?php
-            if (strposa($_SESSION['unitname'], $highranks, 1)) {
-    echo '
-<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-header">Administration</li>
-                <li><a href="addannouncement.php"><span class="glyphicon glyphicon-bullhorn"></span> New Announcement</a></li>
-                <li><a href="reports.php"><span class="glyphicon glyphicon-warning-sign"></span> View Reports</a></li>
-              </ul>
-            </li>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img src="images/combine_logo.png" style="max-height:40px;display:inline;margin-top:-10px;margin-left:-10px"> <?php echo $app_title;?></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <?php
+                if(basename($_SERVER['PHP_SELF']) == 'dash.php') {echo '<li class="active"><a href="dash.php"><span class="glyphicon glyphicon-home active"></span> Dashboard</a></li>';} else {echo '<li><a href="dash.php"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>';}
 
+                ?>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-inbox"></span> Reports <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="report.php?action=add">Add Report</a></li>
+                        <li><a href="report.php?action=myreports">View My Reports</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="tools.php" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-wrench"></span> Tools </a>
+                
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                            <?php
+            if (strposa($_SESSION['unitname'], $adminranks, 1)) {
+                echo '
 
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span> Administration <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="admin.php?action=open"><span class="glyphicon glyphicon-briefcase"></span> View <b>Open</b> Reports</a></li>
+                        <li><a href="admin.php?action=allreports"><span class="glyphicon glyphicon-briefcase"></span> View All Reports</a></li>
+                        <li><a href="admin.php?action=newannoucement"><span class="glyphicon glyphicon-bullhorn"></span> Create new announcement</a></li>
+                        <li><a href="admin.php?action=announcement"><span class="glyphicon glyphicon-th-list"></span> Manage Annoucements</a></li>
+                    </ul>
+                </li>
 
-    ';
-
-} else {
-
-}
+                ';
+            }
             ?>
-            <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-          </ul>
+                <li><a href="index.php?logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+
         </div><!--/.nav-collapse -->
-      </div>
+    </div><!--/.container-fluid -->
+</nav>

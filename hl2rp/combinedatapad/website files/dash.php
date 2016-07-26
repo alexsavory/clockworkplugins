@@ -1,100 +1,171 @@
-<?php session_start();
-// You shouldnt be here if your not logged in
-// Get Unit and set session
-require('include/config.php');
-
-
-
+<?php
+session_start();
+/**
+ * Project: combinedatapad
+ * File: dash.php
+ * Created by PhpStorm.
+ * User: Alex
+ * Created: 06/08/2015 07:25 PM
+ * This remains property of Alex Savory
+ */
 
 if (!isset($_SESSION['unitid'])) {
-$con = mysql_connect($address,$user,$pass);
-if (!$con)
-  {
-  echo('<div class="alert alert-error">' . mysql_error() . '. Please tell the owner.</div>');
-  }
+    header("Location:index.php?nounit");
+}
+if (!isset($_SESSION['steamlogin'])) {
+    header("Location:index.php?nosteam");
+}
+require('include/functions.php');
+require('include/configuration.php');
 
+$mysqli = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 
-mysql_select_db($database, $con);
-$result = mysql_query("SELECT * FROM characters WHERE (_Faction = 'Metropolice Force' OR _Faction = 'Overwatch Transhuman Arm') AND _Name =  '".mysql_real_escape_string($_POST['unit'])."' ");
-
-while($row = @mysql_fetch_array($result))
-  {
-    $_SESSION['unitid'] = $row['_Key'];
-    $_SESSION['unitname'] = $row['_Name'];
-  }
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
 }
 
-       if (!isset($_SESSION['unitid'])) {
-header("Location:index.php");
-       }
-       if (!isset($_SESSION['steamlogin'])) {
-header("Location:index.php");
-       }
-
+// Get Total Reports
+$totalopenreports = ("SELECT COUNT(*) as total FROM combinereports WHERE `reviewed` = 'no'");
+$totalopenresults = $mysqli->query($totalopenreports) or die($mysqli->error . __LINE__);
+while ($data = $totalopenresults->fetch_assoc()) {
+            $totalopen = $data["total"];
+        }
+$totalclosedreports = ("SELECT COUNT(*) as total FROM combinereports WHERE `reviewed` = 'reviewed'");
+$totalclosedresults = $mysqli->query($totalclosedreports) or die($mysqli->error . __LINE__);
+while ($data = $totalclosedresults->fetch_assoc()) {
+            $totalclosed = $data["total"];
+        }
+$totalcitizencount = ("SELECT COUNT(*) as total FROM characters WHERE `_Faction` = 'Citizen'");
+$totalcitizenresults = $mysqli->query($totalcitizencount) or die($mysqli->error . __LINE__);
+while ($data = $totalcitizenresults->fetch_assoc()) {
+            $totalcitzien = $data["total"];
+        }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="bs/ico/favicon.png">
+
 
     <title>Dashboard</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bs/css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            background: -webkit-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Chrome 10+, Saf5.1+ */
+            background:    -moz-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* FF3.6+ */
+            background:     -ms-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* IE10 */
+            background:      -o-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Opera 11.10+ */
+            background:         linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* W3C */
+            font-family: 'Raleway', sans-serif;
+        }
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Static navbar -->
+    <?php
+    include("header.php");
+    ?>
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="row">
+        <?php
+        if(isset($_GET["msg"])){
+            $msg = $_GET["msg"];
+            echo '<div class="alert alert-info"><b>';
+            switch ($msg){
+                case "already_logged_in":
+                    echo 'Your already logged in! To switch user please logout first!';
+                    break;
+            }
+            echo '</b></div>';
+        }
+        ?>
+        <div class="col-md-4">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center"><b>Open Reports</b></h3>
+                </div>
+                <div class="panel-body">
+                    <h1 class="text-center"><?php echo $totalopen;?></h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center"><b>Closed/Replied Reports</b></h3>
+                </div>
+                <div class="panel-body">
+                    <h1 class="text-center"><?php echo $totalclosed;?></h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center"><b>Registered Citizen Count</b></h3>
+                </div>
+                <div class="panel-body">
+                    <h1 class="text-center"><?php echo $totalcitzien;?></h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="page-header">
+            <h1 style="color: white;">Announcements - Last 10 Days</h1>
+        </div>
+
+        <?php
+        $announcements = ("SELECT * FROM combineannoucements WHERE date > current_date - 10 ORDER BY date");
+        $announcementsresult = $mysqli->query($announcements) or die($mysqli->error . __LINE__);
+        while ($data = $announcementsresult->fetch_assoc()) {
+           echo '
+           <div class="alert '.$data["type"].'" role="alert">
+            <b>'.$data["title"].' - '.$data["date"].'</b>
+                <p>
+                   '.$data["info"].'
+                </p>
+                <p>From: '.$data["creator"].'</p>
+        </div>
+
+           ';
+        }
+        ?>
+        
+    </div>
+
+</div> <!-- /container -->
 
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="bs/js/html5shiv.js"></script>
-      <script src="bs/js/respond.min.js"></script>
-    <![endif]-->
-  </head>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
-  <body>
-
-    <div class="container">
-<br>
-      <?php include('header.php');
-
-$con = mysql_connect($address,$user,$pass);
-
-if (!$con)
-  {
-  echo('<div class="alert alert-danger">' . mysql_error() . '</div>');
-  }
-
-mysql_select_db($database, $con);
-$result = mysql_query("SELECT * FROM  `combineannoucements` ORDER BY  `combineannoucements`.`RID` DESC LIMIT 0 , 1");
-while($row = @mysql_fetch_array($result))
-  {
-      ?>
-
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-      <h4>Hi <?php echo $_SESSION['unitname'];?></h4>
-      <div class="well">
-        <h2>Latest Annoucement</h2>
-        <p><div class="alert <?php echo $row['type'];?>"><big><?php echo $row['title'];?></big><hr>"<?php echo $row['info'];?>"<br> From: <?php echo $row['creator'].' at '.$row['date']; ?> (OOC)</div></p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="notices.php">View all notices &raquo;</a>
-        </p>
-      </div>
-      </div>
-      <?php 
-  }
-      ?>
-
-    </div> <!-- /container -->
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="bs/js/jquery.js"></script>
-    <script src="bs/js/bootstrap.min.js"></script>
-  </body>
+</body>
 </html>
+
+
