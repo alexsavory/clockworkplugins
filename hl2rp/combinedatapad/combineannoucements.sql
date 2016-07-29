@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
+-- version 4.2.12deb2+deb8u1build0.15.04.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 18, 2013 at 06:32 PM
--- Server version: 5.5.32
--- PHP Version: 5.3.10-1ubuntu3.8
+-- Generation Time: Jul 29, 2016 at 07:50 PM
+-- Server version: 5.6.28-0ubuntu0.15.04.1
+-- PHP Version: 5.6.4-4ubuntu6.4
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `clockworkfull`
+-- Database: `admin_clockwork`
 --
 
 -- --------------------------------------------------------
@@ -31,11 +31,29 @@ CREATE TABLE IF NOT EXISTS `combineannoucements` (
   `type` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `info` mediumtext,
-  `date` varchar(50) NOT NULL,
-  `RID` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`RID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `date` datetime NOT NULL,
+`RID` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `combineannoucements`
+--
+ALTER TABLE `combineannoucements`
+ ADD PRIMARY KEY (`RID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `combineannoucements`
+--
+ALTER TABLE `combineannoucements`
+MODIFY `RID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
