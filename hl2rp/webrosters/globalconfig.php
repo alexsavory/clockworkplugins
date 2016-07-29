@@ -7,10 +7,10 @@
 // Configuration //
 ///////////////////
 
-$address = "localhost";
-$user = "root";
-$pass = "";
-$database = "clockworkloaded";
+$DB_HOST = "localhost";
+$DB_USER = "clockwork_db";
+$DB_PASS = "pass";
+$DB_NAME = "clockwork_db";
 $characters ="characters";
 $players = "players";
 
