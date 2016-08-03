@@ -234,7 +234,7 @@ echo "
 </tr>
 </center>";
 
-while ($row = $ofcres->fetch_assoc())
+while ($row = $generalresults->fetch_assoc())
 {
 $steam = $row['_SteamID'];
 $parsed = SteamID2CommunityID($steam);
