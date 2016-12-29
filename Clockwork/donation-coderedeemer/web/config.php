@@ -1,5 +1,7 @@
 <?php 
 
+// See Instructions for more detailed description
+
 $communityurl = "http://mygamingcommunity.com"; // the url of ur community
 $communityname = "My Gaming Community"; // The name of the community
 
@@ -8,25 +10,26 @@ $communityname = "My Gaming Community"; // The name of the community
 // see http://steamid.co/
 $admins = array("76561198031633135","76561197977040839");
 
-$config_sender_email = "robot@mygamingcommunity.com"; // Sender of the automated emails
-$config_sender_name = "My Gaming Community Robot";
+
 $dbhost = "localhost";	// The host which hosts your database
 $dbuser = "user";	// The user for the host/database
 $dbpass = "pass";	// The users password
 $dbname = "clockwork";	// The name of the database which holds the activationkeys and notifications table
 
-$config_merchant_domain	= 	"merchant@domain.com";					//	The email you want to appear on the email
-$config_merchant_name	=	"merchant name";					//	The name you want to appaer on the email
+$config_sender_email = "robot@mygamingcommunity.com";	// Sender of the automated emails
+$config_sender_name = "My Gaming Community Robot";	// Friendly Name of sender
+$config_merchant_domain	= "merchant@domain.com";	// The email you want to appear on the email
+$config_merchant_name = "merchant name";		// The name you want to appear on the email
+$config_merchant_email = "merchant@domain.com";		// IMPORTANT! The email you use with paypal to receive payment
 
-$config_merchant_email 	= 	"merchant@domain.com";				//	IMPORTANT! The email you use with paypal to receive payment
-
-$config_USD 			=	true;							//	Currency, set this to false if using £'s i.e. GBP
+$config_USD = true;  //	Currency, set this to false if using £'s i.e. GBP
 
 // IPN Config
 $payPalURL = "https://www.paypal.com/cgi-bin/webscr";
 //$payPalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr"; //For Paypal sandbox
+
 $payments = array( '10', '22', '36', "49" ); // enter prices of stuff here to eliminate bad notifications
-//
+
 
 $config_options = array(
 
