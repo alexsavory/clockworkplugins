@@ -6,7 +6,7 @@ Here are all my plugins for Clockwork and its Schema's
 
 Please Note:
 --------------
-Most of my plugins here are on the Cloud Sixteen plugin center. (http://plugins.coudsixteen.com) This means you don't have to download and install them yourself!
+Most of my plugins here are on the Cloud Sixteen plugin center. (http://plugins.cloudsixteen.com) This means you don't have to download and install them yourself!
 
 Installation
 --------------
@@ -39,7 +39,7 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) [2014] [Alex Savory]
+Copyright (c) [2017] [Alex Savory]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
