@@ -16,6 +16,7 @@ define('user', 'aname');
 define('pass', 'password');
 define('database', 'adatabase');
 
+$con = mysqli_connect(adress, user, pass, database); // DO NOT EDIT!
 
 ///////////////////
 //     Other     //
