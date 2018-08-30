@@ -102,23 +102,23 @@
 
       <?php include('header.php');?>
 <?php
-       $con = mysql_connect($address,$user,$pass);
+       
 if (!$con)
   {
-  echo('<div class="alert alert-error">' . mysql_error() . '</div>');
+  echo('<div class="alert alert-error">' . mysqli_error() . '</div>');
   }
 else echo('<div class="alert alert-success">Successfully Connected</div>');
 
 
-mysql_select_db($database, $con);
+mysqli_select_db(database, $con);
 
-$staff = mysql_query("SELECT * FROM players WHERE `_Schema` = '".$gamemodecode."' AND (_UserGroup='superadmin' OR _UserGroup='operator' OR _UserGroup='admin') ORDER BY FIELD(_UserGroup,'operator','admin','superadmin')");
-if (mysql_error()==""){ 
+$staff = mysqli_query("SELECT * FROM players WHERE `_Schema` = '".$gamemodecode."' AND (_UserGroup='superadmin' OR _UserGroup='operator' OR _UserGroup='admin') ORDER BY FIELD(_UserGroup,'operator','admin','superadmin')");
+if (mysqli_error()==""){ 
 echo '<div class="alert alert-success">Successfully Queried</div>'; 
 }
 else
 
-echo '<div class="alert alert-warning">'.mysql_error().'</div>';
+echo '<div class="alert alert-warning">'.mysqli_error().'</div>';
 echo "
 <center>
 <table class='table table-striped'>
@@ -131,7 +131,7 @@ echo "
 </center>
 ";
 $id = 1;
-while($row = @mysql_fetch_array($staff))
+while($row = mysqli_fetch_array($staff))
   {
 $lastplayed = $row['_LastPlayed'];
 $id++;
@@ -182,9 +182,9 @@ echo "</table>";
     <script src="assets/js/bootstrap-carousel.js"></script>
     <script src="assets/js/bootstrap-typeahead.js"></script>
     <?php
-    mysql_data_seek($staff,0);
+    mysqli_data_seek($staff,0);
     $id = 1;
-while($row = @mysql_fetch_array($staff)){
+while($row = mysqli_fetch_array($staff)){
   $id++;
 echo '
 
@@ -196,7 +196,7 @@ $(function ()
 ';
 
 }
-mysql_close($con);
+mysqli_close($con);
     ?>
  
   </body>
