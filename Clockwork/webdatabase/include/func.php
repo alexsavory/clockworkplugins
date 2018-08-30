@@ -11,17 +11,16 @@ $version = "4";
 function issuperadmin($id){
 include('globalconfig.php');
 
-$con = mysql_connect($address,$user,$pass);
-
 if (!$con)
   {
-  echo('function:issuperadmin error :'.mysql_error());
+  echo('function:issuperadmin error :'.mysqli_error());
   }
-mysql_select_db($database, $con);
 
-$user = mysql_query("SELECT * FROM players WHERE `_SteamID` = '".$id."'");
+mysqli_select_db(database, $con);
 
-while($row = @mysql_fetch_array($user))
+$user = mysqli_query("SELECT * FROM players WHERE `_SteamID` = '".$id."'");
+
+while($row = mysqli_fetch_array($user))
   {
 $rank = $row['_UserGroup'];
     }
@@ -177,7 +176,7 @@ class SteamSignIn
         $result = file_get_contents(self::STEAM_LOGIN, false, $context);
 
         // Validate wheather it's true and if we have a good ID
-        preg_match("#^http://steamcommunity.com/openid/id/([0-9]{17,25})#", $_GET['openid_claimed_id'], $matches);
+        preg_match("#^https://steamcommunity.com/openid/id/([0-9]{17,25})#", $_GET['openid_claimed_id'], $matches);
         $steamID64 = is_numeric($matches[1]) ? $matches[1] : 0;
 
         // Return our final value
