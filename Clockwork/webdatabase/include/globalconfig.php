@@ -11,10 +11,10 @@ if(!defined('CHANGEME')){die('Direct Access not premitted');}
 // Configuration //
 ///////////////////
 
-$address = "localhost";
-$user = "aname";
-$pass = "password";
-$database = "adatabase";
+define('adress', 'localhost');
+define('user', 'aname');
+define('pass', 'password');
+define('database', 'adatabase');
 
 
 ///////////////////
