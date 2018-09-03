@@ -109,41 +109,39 @@
 if(!isset($_SESSION['steam_session']) && !isset($_POST['key'])){header("location:mycharacters.php");}
 if ($_POST['action'] == "banmanage") {
 
-$con = mysql_connect($address,$user,$pass);
 if (!$con)
   {
-  echo('<div class="alert alert-error">' . mysql_error() . '</div>');
+  echo('<div class="alert alert-error">' . mysqli_error() . '</div>');
   }
 
 
-mysql_select_db($database, $con);
+mysqli_select_db(database, $con);
 
 if ($_POST['action1'] == "delete") {
 
-$key = mysql_real_escape_string($_POST['key']);
-    $delete = mysql_query("DELETE FROM `bans` WHERE `_Key` = ".$key.";");
-    if (mysql_error()==""){ 
+$key = mysqli_real_escape_string($_POST['key']);
+    $delete = mysqli_query("DELETE FROM `bans` WHERE `_Key` = ".$key.";");
+    if (mysqli_error()==""){ 
 echo '<div class="alert alert-success"><h2><center>Successfully Deleted Ban</center></h2><br><a href="bans.php">Go back</a></div>';
 }
 else{
-echo '<div class="alert alert-error"> ERROR'.mysql_error().'</div>';
+echo '<div class="alert alert-error"> ERROR'.mysqli_error().'</div>';
 }
 }
 
 
 else if ($_POST['action1'] == "edit") {
-  $con = mysql_connect($address,$user,$pass);
 if (!$con)
   {
-  echo('<div class="alert alert-error">' . mysql_error() . '</div>');
+  echo('<div class="alert alert-error">' . mysqli_error() . '</div>');
   }
 
 
-mysql_select_db($database, $con);
+mysqli_select_db($database, $con);
 
-$key = mysql_real_escape_string($_POST['key']);
-  $result = mysql_query("SELECT * FROM  `bans` WHERE `_Key` LIKE '".$key."'");
-  while($row = @mysql_fetch_array($result))
+$key = mysqli_real_escape_string($_POST['key']);
+  $result = mysqli_query("SELECT * FROM  `bans` WHERE `_Key` LIKE '".$key."'");
+  while($row = mysqli_fetch_array($result))
   {
  echo '
 
