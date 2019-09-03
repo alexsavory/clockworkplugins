@@ -1,204 +1,145 @@
-<?php session_start();?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content=", clockworkwebviewer, clockwork, web viewer, trurascalz, webviewer,">
-    <meta name="author" content="Alex Savory">
-<meta name="description" content="A web viewer  which is free and provided by Alex Savory">
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+		<title>Home - Clockwork Web Database</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i" />
+		<link rel="stylesheet" href="css/smoothproducts.css" />
+	</head>
+	<body>
+		<?php 
 
-    <!-- Le styles -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 20px;
-        padding-bottom: 60px;
-      }
+		include("header.php"); 
 
-      /* Custom container */
-      .container {
-        margin: 0 auto;
-        max-width: 1000px;
-      }
-      .container > hr {
-        margin: 60px 0;
-      }
+		$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname, $dbport);
+   
+         if(mysqli_connect_errno()){
+         	echo '
+         	<div class="container">
 
-      /* Main marketing message and sign up button */
-      .jumbotron {
-        margin: 80px 0;
-        text-align: center;
-      }
-      .jumbotron h1 {
-        font-size: 100px;
-        line-height: 1;
-      }
-      .jumbotron .lead {
-        font-size: 24px;
-        line-height: 1.25;
-      }
-      .jumbotron .btn {
-        font-size: 21px;
-        padding: 14px 24px;
-      }
-
-      /* Supporting marketing content */
-      .marketing {
-        margin: 60px 0;
-      }
-      .marketing p + h4 {
-        margin-top: 28px;
-      }
-
-
-      /* Customize the navbar links to be fill the entire space of the .navbar */
-      .navbar .navbar-inner {
-        padding: 0;
-      }
-      .navbar .nav {
-        margin: 0;
-        display: table;
-        width: 100%;
-      }
-      .navbar .nav li {
-        display: table-cell;
-        width: 1%;
-        float: none;
-      }
-      .navbar .nav li a {
-        font-weight: bold;
-        text-align: center;
-        border-left: 1px solid rgba(255,255,255,.75);
-        border-right: 1px solid rgba(0,0,0,.1);
-      }
-      .navbar .nav li:first-child a {
-        border-left: 0;
-        border-radius: 3px 0 0 3px;
-      }
-      .navbar .nav li:last-child a {
-        border-right: 0;
-        border-radius: 0 3px 3px 0;
-      }
-    </style>
-    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-    <![endif]-->
-
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="assets/ico/favicon.png">
-  </head>
-
-  <body>
-
-    <div class="container">
- <?php include('header.php');?>
-     
-
-      <!-- Jumbotron -->
-      <div class="jumbotron">
-        <h1><?php 
-if ($logoenabled == 1) {
-   echo '<IMG SRC="' .$logo .'"</span>';
-} else {
-echo $site ;
-}?></h1>
-        <p class="lead">Welcome to <?php echo $site; echo "'s "; echo $game ;?> Database!</p>
-        <a class="btn btn-large btn-info" href="<?php echo $website ?>">Visit <?php echo $site?></a>
-      </div>
-
-      <hr>
-
-      <!-- Example row of columns -->
-      <div class="row-fluid">
-        <div class="span6">
-          <h2>Bans</h2>
-          <p>View <b>Clockwork</b> Bans here or find a player's characters and file a ban or unban!</p>
-          <div class="well">
- <?php 
- $todays_date = date("Y-m-d H:i:s");
-$today = strtotime($todays_date);
- $con = mysql_connect($address,$user,$pass);
-if (!$con)
-  {
-  echo('<div class="alert alert-error">' . mysql_error() . '</div>');
-  }
-mysql_select_db($database, $con);
-$bans = mysql_query("SELECT * 
-FROM  `bans` 
-ORDER BY  `bans`.`_Key` DESC 
-LIMIT 0 ,1");
-while($row = @mysql_fetch_array($bans))
-  {
-	  echo "Latest Ban:<b>".$row['_SteamName']."</b><br> Reason: <code>".$row['_Reason']."</code><p>";
-	  if ($row['_UnbanTime'] == '0') 
-     {
-	 echo "<td><span class='label label-important'>Permanent Ban</span></td>"; 
-     }
-  		else
-     {
-  if ( $row['_UnbanTime'] < $today )
-  			{
-				echo "<td><span class='label label-success'>" . date("Y-m-d H:i:s", ($row["_UnbanTime"])). " - Unbanned</span></td>";
-			}
-				else
-					{
-				echo "<span class='label label-warning'>" . date("Y-m-d H:i:s", ($row["_UnbanTime"])). " - Still Banned</span></td>";		
-					}
-     }
-  }
-?>
+         		<div class="alert alert-danger" role="alert">
+  					We are having trouble connecting. Please Contact the Administrator.
+  					<code>'.mysqli_connect_error().'</code>
+				</div>
 			</div>
-          <p><a class="btn btn-danger" href="bans.php">View More &raquo;</a></p>
-        </div>
-        <div class="span4">
-          <h2>Characters</h2>
-          <p> This web applications gives access to view characters and their owners</p>
-          <p><a class="btn" href="characters.php">View details &raquo;</a></p>
-       </div>
-<?php
-if ($enablecustomfeaturebox ==1) {
-  echo $customfeatureboxcontent;
-} else {echo '
-        <div class="span4">
-          <h2>Steam integration!</h2>
-          <p>You can now login with steam! Click the login with steam icon in the navigation area!</p>
-          <p><b><i>No secure or private information is shared</i></b></p>
-       </div>
 
-';}
-?>
-      </div>
 
-      <hr>
+         	';
 
-   <?php include('footer.php')?>
+            die();
+         }
+        
+        // Perform All SQL Queries
 
-    </div> <!-- /container -->
+        $todays_date = date("Y-m-d H:i:s");
+		$today = strtotime($todays_date);
+		$banquery = "SELECT * FROM  `bans` ORDER BY  `bans`.`_Key` DESC LIMIT 0 ,6";
+		$banresult = mysqli_query($conn, $banquery);
+		$charquery = "SELECT * FROM `characters` ORDER BY `characters`.`_Key` DESC LIMIT 0,6";
+		$charresult = mysqli_query($conn, $charquery);
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap-transition.js"></script>
-    <script src="assets/js/bootstrap-alert.js"></script>
-    <script src="assets/js/bootstrap-modal.js"></script>
-    <script src="assets/js/bootstrap-dropdown.js"></script>
-    <script src="assets/js/bootstrap-scrollspy.js"></script>
-    <script src="assets/js/bootstrap-tab.js"></script>
-    <script src="assets/js/bootstrap-tooltip.js"></script>
-    <script src="assets/js/bootstrap-popover.js"></script>
-    <script src="assets/js/bootstrap-button.js"></script>
-    <script src="assets/js/bootstrap-collapse.js"></script>
-    <script src="assets/js/bootstrap-carousel.js"></script>
-    <script src="assets/js/bootstrap-typeahead.js"></script>
+        mysqli_close($conn);
 
-  </body>
+
+		?>
+
+
+		<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+  			<div class="col-md-5 p-lg-5 mx-auto my-5">
+    			<h1 class="display-4 font-weight-normal">Welcome!</h1>
+    			<p class="lead font-weight-normal">Here you can view our communities characters, admins and check the latest bans. If you login you can even check your own characters!</p>
+    			<?php 
+    			if(!isset($_SESSION['steamid'])) {
+    			loginbutton("rectangle");
+
+    			}  else {
+    			    logoutbutton(); //Logout Button
+    			}   
+
+    			if(isset($_GET["m"])){
+    				if($_GET["m"] == "Success_Edit_Char"){
+    					echo '
+    					 <div class="alert alert-success" role="alert">
+            				Character Data Updated.
+        				 </div>
+    					';
+    				}elseif($_GET["m"] == "Success_Edit_Ply"){
+    					echo '
+    					 <div class="alert alert-success" role="alert">
+            				Player Data Updated.
+        				 </div>
+    					';
+    				}elseif($_GET["m"] == "Ban_BadTime"){
+    					echo '
+    					 <div class="alert alert-warning" role="alert">
+            				Unable to update ban, the time provided was invalid.
+        				 </div>
+    					';
+    				}elseif($_GET["m"] == "Success_Ban_Edit"){
+    					echo '
+    					 <div class="alert alert-success" role="alert">
+            				Ban Data Updated.
+        				 </div>
+    					';
+    				}elseif($_GET["m"] == "Success_Ban_Delete"){
+    					echo '
+    					 <div class="alert alert-success" role="alert">
+            				Ban Deleted.
+        				 </div>
+    					';
+    				}
+    			}  
+    			?>
+  			</div>
+  			<div class="product-device shadow-sm d-none d-md-block"></div>
+  			<div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+		</div>
+		<div class="container">
+			<div class="row">
+    			<div class="col-md-6">
+    				<div class="card border-success mb-3">
+  						<div class="card-header text-center">New Characters</div>
+  						<div class="card-body text-success">
+    						<ul class="list-group">
+  								<?php
+  								if($charresult){
+  									while ($row = mysqli_fetch_assoc($charresult)) {
+
+        								echo "<li class='list-group-item'>".$row["_Name"]." - ".$row["_SteamName"]."</li>";
+    								}
+  								}
+  								?>
+  								
+							</ul>
+  						</div>
+					</div>
+    			</div>
+    			<div class="col-md-6">
+    				<div class="card border-danger mb-3">
+  						<div class="card-header text-center">New Bans</div>
+  						<div class="card-body text-danger">
+    						<ul class="list-group">
+  								<?php
+  								if($banresult){
+  									while ($row = mysqli_fetch_assoc($banresult)) {
+  										if ($row["_UnbanTime"] == "0"){
+  											echo "<li class='list-group-item list-group-item-danger'>".$row['_SteamName']." - <span class='badge badge-danger'>Permanent Ban</span></li>";
+  										}
+  										elseif ($row["_UnbanTime"] < $today){
+  											echo "<li class='list-group-item list-group-item-success'>".$row['_SteamName']." - <span class='badge badge-primary'>" . date("Y-m-d H:i:s", ($row["_UnbanTime"])). "</span>  <span class='badge badge-primary'>Unbanned</span></li>";
+  										} else {
+  											echo "<li class='list-group-item list-group-item-warning'>".$row['_SteamName']." - <span class='badge badge-primary'>" . date("Y-m-d H:i:s", ($row["_UnbanTime"])). "</span>  <span class='badge badge-primary'>Banned</span></li>";
+  										}
+    								}
+  								}
+  								?>
+							</ul>
+  						</div>
+					</div>
+    			</div>
+			</div>
+		</div>
+
+	</body>
 </html>
