@@ -1,12 +1,16 @@
+
+
 Tru's Clockwork Plugins
 =========
 
 Here are all my plugins for Clockwork and its Schema's
 
+Notes (2019)
+--------------
+
+I have updated the website files to be compatiable with newer versions of MYSQL. I have not tested these plugins in a long time. Please assume they still work. (at least since Clockwork 0.94)
 
 Please Note:
---------------
-Most of my plugins here are on the Cloud Sixteen plugin center. (http://plugins.cloudsixteen.com) This means you don't have to download and install them yourself!
 
 Installation
 --------------
@@ -24,15 +28,10 @@ Exceptions
 * hl2rp/combinedatapad - This is in two parts, webserver and gameserver. Instructions included.
 * hl2rp/webrosters - This has to uploaded to a website not a gameserver
 
-Updates/Roadmap
---------------
-
-Any updates I plan will appear in my Trello: https://trello.com/b/jA5mzRbM/my-clockwork-todo-board
-
 Issues/Problems
 --------------
 
-You can find various methods to contact me @ http://trurascalz.tk or post an issue on this Github
+Post an issue on this Github
 
 License
 ----
