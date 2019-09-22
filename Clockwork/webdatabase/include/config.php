@@ -1,6 +1,14 @@
 <?php
 // PHP Settings
 
+////////////////////
+//     STEAM      //
+// Configuration  //
+////////////////////
+
+// PLEASE ALSO EDIT /steamauth/SteamConfig.php 
+
+
 ///////////////////
 //     Site      //
 // Configuration //
