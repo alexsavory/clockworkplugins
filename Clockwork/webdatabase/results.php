@@ -2,7 +2,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-		<title>Results</title>
+		<title>Home - Brand</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i" />
 		<link rel="stylesheet" href="css/smoothproducts.css" />
@@ -143,8 +143,19 @@ if($_POST["action"] ==  "player"){
                  <input type="hidden" name="key" value="'.$row['_SteamID'].'" />
                  <input type="hidden" name="admin" value="true" />
                  <button type="submit" class="btn btn-warning btn-sm">Edit Player</button>
-                   </form></td>
+                   </form>
                 ';
+                if($charsearch == "true"){
+                  echo '
+                 <form action="edit.php" method="post" style="display: inline;">
+                   <input type="hidden" name="action" value="charedit" />
+                 <input type="hidden" name="key" value="'.$row['_Key'].'" />
+                 <input type="hidden" name="admin" value="true" />
+                 <button type="submit" class="btn btn-danger btn-sm">Edit Character</button>
+                   </form>
+                ';
+                echo "</td>";
+                }
               } 
 
              echo "
