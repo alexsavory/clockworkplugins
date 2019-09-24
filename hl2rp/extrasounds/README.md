@@ -15,4 +15,4 @@ resource.AddFile( "/sound/*a folder name*/*file name*" )
 which will be placed in /lua/autorun/resources.lua
 
 A transcript is given.
-Sounds can be listened to here http://alexsavory.me.uk/other/hl2rpsounds/
+
