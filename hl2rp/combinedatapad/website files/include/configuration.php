@@ -16,10 +16,12 @@
 // Configuration //
 ///////////////////
 
-$DB_HOST = "localhost";
-$DB_USER = "user";
+
+$DB_HOST = "127.0.0.1";
+$DB_USER = "username";
 $DB_PASS = "password";
-$DB_NAME = "clockwork_db";
+$DB_NAME = "database_name";
+
 
 ///////////////////
 //      UI       //
@@ -43,6 +45,20 @@ $adminranks = array('sec', 'dvl', 'cmd', 'epu', "DvL");
 $apikey ="";  // Visit http://steamcommunity.com/dev !!!! THIS IS A MUST TO CONFIGURE !!!!
 // ??????????? MUST BE SET!
 
+// View Character Data in the Resident List True / False
+$enablecombinedata = true;
+
+// Edit Character Data in Resident List True/ Flase
+$enableedit = true;
+
+// Enable for support of Better View Data Plugin
+$enablebetterviewdata = true;
+
+// People who can access the admin part.
+// 64bit steamid
+// see http://steamid.co/
+// last entry should not have a , 
+$admins = array("76561198031633135","76561198031633135");
 
 
 ?>

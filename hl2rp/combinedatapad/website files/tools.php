@@ -35,12 +35,14 @@ if (mysqli_connect_errno()) {
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-
+    
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js?v1"></script>
 
     <title>Tools & Accessories</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css?v" rel="stylesheet">
 
     <style type="text/css">
         body {
@@ -84,7 +86,7 @@ if (mysqli_connect_errno()) {
     <script src="js/bootstrap.min.js"></script>
 
     <!-- C16 Admin Javascript-->
-    <script src="js/ajaxpages.js?2"></script>
+    <script src="js/ajaxpages.js?6aaaaaa"></script>
 </head>
 
 <body>
@@ -145,6 +147,7 @@ if (mysqli_connect_errno()) {
     </div>
     <hr>
     <div class="row">
+        <div class="container"><div class="row"><div class="col-md-12"><div id="alertbox"></div></div></div></div>
     	<div class="container well" id="mainpanel">
     		<div class="alert alert-warning" role="alert">Please Select An Action!</div>
     	</div>

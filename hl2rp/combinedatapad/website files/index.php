@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 require('include/functions.php');
@@ -34,6 +33,8 @@ if(isset($_GET["login"])) {
         header("Location: dash.php?msg=already_logged_in");
     }
 }
+
+
 ?>
 <html>
 <head>
@@ -50,17 +51,20 @@ if(isset($_GET["login"])) {
     <link href="css/login_page.css" rel="stylesheet">
     <?php
 
-
     // Quick Login
 
     if (!empty($_POST['steamid'])) {
         $_SESSION['steamlogin'] = $_POST['steamid'];
+        
+        if(empty($_POST["unitcheck"])){
+            echo ' <meta http-equiv="refresh" content="0;url=?quickloginunit">';
+        }
+        $unitcheck = $_POST["unitcheck"];
     }
-
+echo "bb";
     if (isset($_SESSION['steamlogin'])) {
         $steam_login_verify = $_SESSION['steamlogin'] ;
-    }
-    else {
+    }else {
         $steam_login_verify = SteamSignIn::validate();
     }
 
@@ -79,7 +83,20 @@ if(isset($_GET["login"])) {
         // Get Players Characters
         $query = ("SELECT DISTINCT _Name,_Key FROM characters WHERE _SteamID =  '".$_SESSION["steamname"]."' AND (_Faction = 'Metropolice Force' OR _Faction = 'Overwatch Transhuman Arm')");
         $result = $mysqli->query($query) or die($mysqli->error . __LINE__);
+        
+        // Challange QuickLogin
+        if (isset($unitcheck)){
+            $query2 = ("SELECT * FROM combinelogins WHERE steamid =  '".$_SESSION["steamname"]."' AND  pin LIKE  '".$unitcheck."'; ");
+            $result2 = $mysqli->query($query2) or die($mysqli->error . __LINE__);
+            if ($result2->num_rows == 1) {
+                            } elseif($result2->num_rows == 0) {
+                                            $invalidunit = 1;
+                            }
+                            
+                           
+        }
     } else {
+        
         $steam_sign_in_url = SteamSignIn::genUrl();
     }
     ?>
@@ -98,6 +115,9 @@ if(isset($_GET["login"])) {
     } elseif (isset($_GET["nounit"])) {
         $barcolour = "panel-warning";
         $bartext = "<span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span> We was unable to authenticate your unit! Please log back in";
+    } elseif (isset($_GET["quickloginunit"])) {
+        $barcolour = "panel-warning";
+        $bartext = "<span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span> We was unable to authenticate your unit! Please login with steam.";
     } else {
         $barcolour = "panel-info";
         $bartext = "<span class='glyphicon glyphicon-question-sign' aria-hidden='true'></span> Please confirm your Identity.";
@@ -116,9 +136,16 @@ if(isset($_GET["login"])) {
                     <img src="images/combine_logo.png" height="160px" width="170px" />
                 </div>
 
-                <div class="col-md-8" style="border-left:1px solid #ccc;height:160px">
+                <div class="col-md-8" style="border-left:1px solid #ccc">
                     <?php
                     if(!empty($steam_login_verify)){
+                        
+                        if(isset($invalidunit)){
+                            echo '<div class="alert alert-danger" role="alert">We could not validate you. Is this your first time? You need to sign in with Steam to set a passcode.</div>';
+                            echo '<a href="?logout=true&quickloginunit" class="btn btn-xs btn-warning pull-right">Try Again</a>';
+                            die();
+                        }
+                        
                         echo '
 
                         <form action="?login=true" method="post">
@@ -136,23 +163,96 @@ if(isset($_GET["login"])) {
                                     </label>
                                 </div>';
                             }
+                            print '<button class="btn btn-xs btn-primary btn-block" type="submit">Sign in</button>';
+                            echo "</form>";
                         } else {
                             echo '<div class="alert alert-danger" role="alert">We were unable to find any Characters for your SteamID</div>';
                         }
 
+                    echo "<hr>";
+                    if(isset($_POST["passcodeupdate"])){
+                        $passcode = $_POST["passcodeupdate"];
+                        $passcode = $mysqli->real_escape_string($passcode);
+                        
+                        if(!is_numeric($passcode)){
+                            echo '<div class="alert alert-danger" role="alert">Your passcode: <code>'.$passcode.'</code> must be a number</div>';
+                        } else {
+                            $updatepass = ("UPDATE `combinelogins` SET `pin` = '$passcode', `updated` = NOW() WHERE `combinelogins`.`steamid` = '".$_SESSION["steamname"]."'");
+                  
+                       $passresult = $mysqli->query($updatepass) or die($mysqli->error . __LINE__);
+                        
+                        echo '<div class="alert alert-success" role="alert">Your passcode has been updated to: <code>'.$passcode.'</code></div>';
+                        }
+                        
+                        
+                        
+                    }
+                    $findcode = ("SELECT * FROM `combinelogins` WHERE `combinelogins`.`steamid` = '".$_SESSION["steamname"]."'");
+                    $coderesult = $mysqli->query($findcode) or die($mysqli->error . __LINE__);
+                    if ($coderesult->num_rows == 1) {
+                            while ($row = $coderesult->fetch_assoc()) {
+                                $code = $row["pin"];
+                                $date = $row["updated"];
+                            }
+                    }
+                    
+                    
+                    echo '
+                    <form action="index.php" method="post" class="form">
 
-                        print '<button class="btn btn-xs btn-primary btn-block" type="submit">Sign in</button>';
+                            
+                            <div class="form-group">
+                            <span class="label label-info">Passcode:</span>
+                            
+                                <input type="password" class="form-control" id="passcodeupdate" name="passcodeupdate" minlength="4" required ';
+                                if(isset($code)){
+                                    echo "value='$code'";
+                                }
+                                
+                                echo'>
+                            </div>
+                            
+                            <div class="row">
+                            
+                            <div class="col-md-6"><button type="submit" class="btn btn-block btn-success">Update Passcode</button> </div><div class="col-md-6"><button id="Toggle" type="button" onclick="TogglePass()" class="btn btn-block btn-info"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Show</button></div>
+
+                            </div></form>
+                            
+                    
+                    ';
+
+                        
                     } else {
                         echo '<a href="'.$steam_sign_in_url.'"><img style="margin-top: 8px" src="http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_small.png" /></a>';
                         echo '<hr>';
-                        echo "</p>Quick Login:<br>";
-                        echo " <form action='index.php' method='post' >
-                                <div class='form-group'>
-                                    <input type='text' class='form-control input-sm' readonly id='steamid' name='steamid' value=''>
-                                </div>
-                                <button class='btn btn-xs btn-success btn-block' type='submit'>Quick login</button>
-                               </form>
-";
+                        if (!isset($_GET["quickloginunit"])){
+                                                    echo '
+                        <div class="well">
+                            
+                            <form action="index.php" method="post" class="form">
+
+                            <div class="form-group">
+                            <span class="label label-info">Steam ID:</span>
+                                <input type="text" class="form-control" id="steamid" name="steamid" required>
+                            </div>
+                            <div class="form-group">
+                            <span class="label label-info">Passcode:</span>
+                                <input type="number" class="form-control" id="unitcheck" name="unitcheck" minlength="4" required>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-6"><button type="submit" class="btn btn-block btn-success">Quick Login</button> </div>
+                            <div class="col-md-6"><b>You must sign in with Steam first to use this login.</b></div>
+                            </div>
+                            
+                            
+                        </form>
+                        </div>
+                        
+                        
+                        ';
+                        }
+
+                        
                     }
 
                     ?>
@@ -166,5 +266,18 @@ if(isset($_GET["login"])) {
     <p><a href="https://github.com/trurascalz">About</a> &copy; Trurascalz</p>
 
 </div>
+
+<script>
+    function TogglePass() {
+  var x = document.getElementById("passcodeupdate");
+  if (x.type === "password") {
+    x.type = "text";
+    document.getElementById("Toggle").innerHTML = '<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> Hide';
+  } else {
+    x.type = "password";
+    document.getElementById("Toggle").innerHTML = '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Show';
+  }
+}
+</script>
 </body>
 </html>

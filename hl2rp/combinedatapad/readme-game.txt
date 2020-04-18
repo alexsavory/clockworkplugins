@@ -1,2 +1,2 @@
-Place the folder INSIDE of the 	"game-server(You put this on your clockwork server)" folder into your HL2RP plugins
-There will be a new setting in your clockwork system area for to change, called "Logger URL" see here http://puu.sh/4TaEq.png
+Place the folder that is INSIDE of the "game-server-files" folder into your HL2RP plugins not the Clockwork Plugins
+There will be a new setting in your clockwork system area for to change, called "Logger URL", set this to the website address you have made that the website files sit on.

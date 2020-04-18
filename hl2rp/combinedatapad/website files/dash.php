@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 /**
  * Project: combinedatapad
  * File: dash.php
@@ -8,7 +9,6 @@ session_start();
  * Created: 06/08/2015 07:25 PM
  * This remains property of Alex Savory
  */
-
 if (!isset($_SESSION['unitid'])) {
     header("Location:index.php?nounit");
 }
@@ -138,7 +138,7 @@ while ($data = $totalcitizenresults->fetch_assoc()) {
         </div>
 
         <?php
-        $announcements = ("SELECT * FROM combineannoucements WHERE date > current_date - 10 ORDER BY date");
+        $announcements = ("SELECT * FROM combineannoucements WHERE date > current_date - 10 ORDER BY date DESC");
         $announcementsresult = $mysqli->query($announcements) or die($mysqli->error . __LINE__);
         while ($data = $announcementsresult->fetch_assoc()) {
            echo '

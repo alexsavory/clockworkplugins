@@ -1,0 +1,2 @@
+If you are upgrading from an older version, just reupload the website files and update the configuration.php file
+Then import the combinelogins.sql to your clockwork database (eg via phpmyadmin)

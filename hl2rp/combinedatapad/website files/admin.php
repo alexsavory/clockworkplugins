@@ -860,6 +860,7 @@ if($_GET["action"] == "announcement") {
        <tr>
        <th>#</th>
        <th>Title</th>
+       <th>Description</th>
        <th>Creator</th>
        <th>Actions</th>
        </tr>
@@ -870,6 +871,7 @@ if($_GET["action"] == "announcement") {
             echo '<tr>';
             echo '<td>'.$rowidnum.'</td>';
             echo '<td>'.$row["title"].'</td>';
+             echo '<td>'.$row["info"].'</td>';
             echo '<td>'.$row["creator"].'</td>';
             echo '<td><a class="btn btn-xs btn-danger" href="admin.php?action=deleteannoucement&id='.$row["RID"].'">Delete</a></td>';
 
@@ -1019,6 +1021,187 @@ if($_GET["action"] == "deleteannoucement"){
 </html>
     ';
 
+}
+
+if($_GET["action"] == "passcodes") {
+    
+    if (!in_array($_SESSION['steamlogin'], $admins)) {
+  header('Location:../index.php');
+}
+    date_default_timezone_set($zone);
+    date("I");
+    echo '
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>User Passcodes</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+        background: -webkit-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Chrome 10+, Saf5.1+ */
+            background:    -moz-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* FF3.6+ */
+            background:     -ms-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* IE10 */
+            background:      -o-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Opera 11.10+ */
+            background:         linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* W3C */
+            font-family: "Raleway", sans-serif;
+        }
+        body {
+        padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+    </style>
+    <script language="javascript/text">
+        function addTxt(txt, field){
+            var myTxt = txt;
+            var id = field;
+            document.getElementById(id).value = myTxt;
+        }
+    </script>
+
+</head>
+
+<body>
+
+<div class="container">
+    ';
+
+
+    include("header.php");
+
+    echo '
+
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="well">
+        <div class="row"><div class=".col-md-12"><div class="alert alert-warning text-center" role="alert"><h2><span class="label label-danger">Admin Tools</span> Manage user passcodes</div></div></div>';
+
+    $mysqli = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+
+    if (mysqli_connect_errno()) {
+        printf("Unable to Connect to Network! Connect failed: %s\n", mysqli_connect_error());
+        exit();
+    }
+    
+                    if(isset($_POST["passcodeupdate"])){
+                        $passcode = $_POST["passcodeupdate"];
+                        $passcode = $mysqli->real_escape_string($passcode);
+                        $usersteamid = $_POST["usersteamid"];
+                        $usersteamid = $mysqli->real_escape_string($usersteamid);
+                        
+                        if(!is_numeric($passcode)){
+                            echo '<div class="alert alert-danger" role="alert">The passcode: <code>'.$passcode.'</code> must be a number</div>';
+                        } else {
+                            $updatepass = ("UPDATE `combinelogins` SET `pin` = '$passcode', `updated` = NOW() WHERE `combinelogins`.`steamid` = '".$usersteamid."'");
+                  
+                       $passresult = $mysqli->query($updatepass) or die($mysqli->error . __LINE__);
+                        
+                        echo '<div class="alert alert-success" role="alert">The passcode for <code>'.$usersteamid.'</code> has been updated to: <code>'.$passcode.'</code></div>';
+                        }
+                        
+                        
+                        
+                    }
+    
+    
+    $per_page=10;
+    if (isset($_GET["page"])) {
+        $page = $_GET["page"];
+    } else {
+        $page=1;
+    }
+
+    $start_from = ($page-1) * $per_page;
+
+    $query = "SELECT * FROM  `combinelogins` LIMIT $start_from , $per_page";
+    $result = $mysqli->query($query) or die($mysqli->error . __LINE__);
+    if($result){
+       echo '
+       <table class="table table-striped">
+       <tr>
+       <th>#</th>
+       <th>SteamID</th>
+       <th>Passcode</th>
+       <th>Updated</th>
+       <th>Actions</th>
+       </tr>
+       ';
+
+        while($row = $result->fetch_assoc()){
+            echo '<tr>';
+            echo '<td>'.$row["id"].'</td>';
+            echo '<td>'.$row["steamid"].'</td>';
+            echo '<td>'.$row["pin"].'</td>';
+            echo '<td>'.$row["updated"].'</td>';
+            echo '<td>
+            
+            <form action="admin.php?action=passcodes" method="post" class="form">
+            <input type="hidden" id="usersteamid" name="usersteamid" value="'.$row["steamid"].'">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="passcodeupdate" name="passcodeupdate" minlength="4" required>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="submit">Update</button>
+                                </span>
+                            </div><!-- /input-group -->
+                    </form>
+            
+            </td>';
+
+            echo '</tr>';
+        }
+        echo '
+       </table>
+
+       ';
+        $query = "SELECT * FROM  `combinelogins` ";
+        $result = $mysqli->query($query) or die($mysqli->error . __LINE__);
+        $total_records = mysqli_num_rows($result);
+        $total_pages = ceil($total_records / $per_page);
+
+        $total_pages = ceil($total_records / $per_page);
+
+        //Build Pagination
+        echo '
+        <nav class="text-center">
+        <ul class="pagination">
+        ';
+        //Going to first page
+        echo '
+            <li>
+            <a href="admin.php?action=passcodes&page=1" aria-label="Previous">
+                <span aria-hidden="true">First Page</span>
+            </a>
+            </li>';
+
+        for ($i=1; $i<=$total_pages; $i++) {
+            echo "<li><a href='admin.php?action=passcodes&page=".$i."''>".$i."</a></li>";
+        };
+        // Going to last page
+        echo "<li><a href='admin.php?action=passcodes&page=$total_pages'>".'Last Page'."</a></li> ";
+        echo '</ul></nav>';
+
+    }
+    echo '
+    </div>
+
+</div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type= "javascript/text" src="include/myjavafunc.js"></script>
+</body>
+</html>
+    ';
 }
 ?>
 

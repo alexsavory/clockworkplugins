@@ -53,6 +53,15 @@ ini_set("display_errors", 1);
                         <li><a href="admin.php?action=allreports"><span class="glyphicon glyphicon-briefcase"></span> View All Reports</a></li>
                         <li><a href="admin.php?action=newannoucement"><span class="glyphicon glyphicon-bullhorn"></span> Create new announcement</a></li>
                         <li><a href="admin.php?action=announcement"><span class="glyphicon glyphicon-th-list"></span> Manage Annoucements</a></li>
+                        ';
+                        
+                        if (in_array($_SESSION['steamlogin'], $admins)) {
+                        echo '  <li role="separator" class="divider"></li>';
+                        echo '<li><a href="admin.php?action=passcodes"><span class="glyphicon glyphicon-lock"></span> <span class="label label-danger">Admin</span> Manage Passcodes</a></li>';
+                        }
+                        
+                        
+                        echo '
                     </ul>
                 </li>
 
