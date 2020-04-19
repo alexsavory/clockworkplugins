@@ -233,7 +233,7 @@ echo "bb";
 
                             <div class="form-group">
                             <span class="label label-info">Steam ID:</span>
-                                <input type="text" class="form-control" id="steamid" name="steamid" required>
+                                <input type="text" class="form-control" id="steamid" name="steamid" readonly required>
                             </div>
                             <div class="form-group">
                             <span class="label label-info">Passcode:</span>
