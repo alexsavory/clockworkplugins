@@ -34,7 +34,6 @@ if(isset($_GET["login"])) {
     }
 }
 
-
 ?>
 <html>
 <head>
@@ -177,7 +176,9 @@ echo "bb";
                         if(!is_numeric($passcode)){
                             echo '<div class="alert alert-danger" role="alert">Your passcode: <code>'.$passcode.'</code> must be a number</div>';
                         } else {
-                            $updatepass = ("UPDATE `combinelogins` SET `pin` = '$passcode', `updated` = NOW() WHERE `combinelogins`.`steamid` = '".$_SESSION["steamname"]."'");
+                            //$updatepass = ("UPDATE `combinelogins` SET `pin` = '$passcode', `updated` = NOW() WHERE `combinelogins`.`steamid` = '".$_SESSION["steamname"]."'");
+                            $steamid = $_SESSION["steamname"];
+                            $updatepass= ("INSERT INTO `combinelogins` (steamid, pin, updated) VALUES('$steamid', '$passcode', NOW()) ON DUPLICATE KEY UPDATE pin='$passcode', updated=NOW()");
                   
                        $passresult = $mysqli->query($updatepass) or die($mysqli->error . __LINE__);
                         
@@ -233,7 +234,7 @@ echo "bb";
 
                             <div class="form-group">
                             <span class="label label-info">Steam ID:</span>
-                                <input type="text" class="form-control" id="steamid" name="steamid" readonly required>
+                                <input type="text" class="form-control" id="steamid" readonly name="steamid" required>
                             </div>
                             <div class="form-group">
                             <span class="label label-info">Passcode:</span>

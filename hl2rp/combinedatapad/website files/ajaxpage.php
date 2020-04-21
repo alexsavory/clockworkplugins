@@ -258,17 +258,24 @@ if($action == "editcitizen") {
   			$sex = $row["_Gender"];
   			$data = $row["_Data"];
 	    }
+
+	    
+	    //$data = stripslashes($data);
+$data = preg_replace("/[\r\n]+/", " ", $data);
+$data = utf8_encode($data);
 $array = json_decode($data, true);
 
+$array = array_change_key_case($array, CASE_LOWER);
 
 //$combinedata = stripcslashes($combinedata);
                     //$combinedata = nl2br(strip_tags($combinedata));
+
 
 if(!array_key_exists("combinedata",$array)){
     $nodata = true;
 } else {
     $nodata = false;
-    $combinedata = $array["combinedata"];
+        $combinedata = $array["combinedata"];
 }
 if(!array_key_exists("combinepoints",$array)){
     $nopoints = true;
@@ -280,9 +287,10 @@ if(!array_key_exists("combinepoints",$array)){
             echo '<div class="col-md-5">';
                 echo '<div class="panel panel-primary">';
                     echo '<div class="panel-heading">';
-                        echo '<h3 class="panel-title">Citizen: <code>'.$name.'</code>  <div class="pull-right">ID: <code>'.$citizenid.'</code></div></h3>';
+                        echo '<h3 class="panel-title text-center"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Citizen Information</h3>';
                     echo '</div>';
                     echo '<div class="panel-body">';
+                    echo '<p>Citizen: <code>'.$name.'</code></p><p>ID: <code>'.$citizenid.'</code> Gender:<code>'.$sex.'</code></p><hr>';
                         if($nodata == true){
                             echo "<pre>";
                             echo "No Citizen Data Available";
@@ -290,7 +298,7 @@ if(!array_key_exists("combinepoints",$array)){
                         } else {
                             if($enableedit == true){
                                 echo '<form id="CharData">';
-                                echo '<textarea id="data" name="data" style="resize:vertical;" class="form-control">';
+                                echo '<textarea id="data" name="data" rows=10 style="resize:vertical;" class="form-control">';
                                 echo $combinedata;
                                 echo '</textarea>';
                                 echo '<hr>';
@@ -300,7 +308,7 @@ if(!array_key_exists("combinepoints",$array)){
                                 echo '</form>';
                             } else {
                                 echo '<form>';
-                                echo '<textarea id="data" name="data" style="resize:vertical;" disabled class="form-control">';
+                                echo '<textarea id="data" name="data" rows=10 style="resize:vertical;" disabled class="form-control">';
                                 echo $combinedata;
                                 echo '</textarea>';
                                
@@ -482,7 +490,7 @@ if(strpos($points, "-") !== false){
     $newdata =  array (
           'rsn' => $reason,
           'num' => $points,
-          'usr' => 'test',
+          'usr' => $_SESSION["unitname"],
           'loy' => false
         ); 
 } else{
@@ -490,7 +498,7 @@ if(strpos($points, "-") !== false){
    $newdata =  array (
           'rsn' => $reason,
           'num' => $points,
-          'usr' => 'test',
+          'usr' => $_SESSION["unitname"],
           'loy' => true
         );  
 }
@@ -500,6 +508,7 @@ if(strpos($points, "-") !== false){
         
     echo '<div class="container">';
         echo '<div class="row">';
+
             array_push($array["combinepoints"],$newdata);
             
             $newentry = json_encode($array);
@@ -548,6 +557,7 @@ if($action == "updatedata"){
 	    }
 $array = json_decode($data, true);
 
+$array = array_change_key_case($array, CASE_LOWER);
 
 
     echo '<div class="container">';
@@ -557,6 +567,7 @@ $array = json_decode($data, true);
             
             $newentry = json_encode($array);
             $newentry = $mysqli->real_escape_string($newentry);
+
             $update = "UPDATE `characters` SET `_Data` = '$newentry' WHERE `_Key` =  '$key' AND  `_Faction` !=  'Metropolice Force' AND `_Faction` = 'Citizen'";
             $result = $mysqli->query($update) or die($mysqli->error . __LINE__);
 
