@@ -42,32 +42,30 @@ ini_set("display_errors", 1);
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span> Administration <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
                             <?php
             if (strposa($_SESSION['unitname'], $adminranks, 1)) {
                 echo '
 
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-briefcase"></span> Administration <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
+                
                         <li><a href="admin.php?action=open"><span class="glyphicon glyphicon-briefcase"></span> View <b>Open</b> Reports</a></li>
                         <li><a href="admin.php?action=allreports"><span class="glyphicon glyphicon-briefcase"></span> View All Reports</a></li>
                         <li><a href="admin.php?action=newannoucement"><span class="glyphicon glyphicon-bullhorn"></span> Create new announcement</a></li>
                         <li><a href="admin.php?action=announcement"><span class="glyphicon glyphicon-th-list"></span> Manage Annoucements</a></li>
                         ';
                         
-                        if (in_array($_SESSION['steamlogin'], $admins)) {
+                        
+                        
+                        
+                        
+            }
+            if (in_array($_SESSION['steamlogin'], $admins)) {
                         echo '  <li role="separator" class="divider"></li>';
                         echo '<li><a href="admin.php?action=passcodes"><span class="glyphicon glyphicon-lock"></span> <span class="label label-danger">Admin</span> Manage Passcodes</a></li>';
                         }
-                        
-                        
-                        echo '
-                    </ul>
-                </li>
-
-                ';
-            }
-            ?>
+            ?></ul></li>
                 <li><a href="index.php?logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
 
