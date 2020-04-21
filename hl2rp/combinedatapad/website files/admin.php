@@ -22,6 +22,10 @@ if (!isset($_SESSION['steamlogin'])) {
             } else {
             	$allow = false;
             }
+            
+if (in_array($_SESSION['steamlogin'], $admins)) {
+    $allow = true;
+}
             if($allow == false){
             	header("Location:dash.php");
             }
