@@ -1,19 +1,25 @@
-
+> [!IMPORTANT]  
+> (2025) This project is now archived, no further support is provided. I believe everything still works, however Clockwork, CloudSixteen and its Schema's are no longer publicly active.
+> These are here for archival purposes, the demo website should remain active as long as I can maintain it.
+> 
+> 💕 to all those that enjoyed the CloudSixteen era.
+> 
+> Alex
 
 Tru's Clockwork Plugins
 =========
 
-Here are all my plugins for Clockwork and its Schema's
+Here are all my plugins for Clockwork and its Schema's by CloudSixteen. 
 
 Demo Links
 ==========
 View links to live demo's of some of the projects.
-http://test.alexsavory.me/
+http://test.alexsavory.co.uk
 
 Notes (2019)
 --------------
-
-I have updated the website files to be compatiable with newer versions of MYSQL. I have not tested these plugins in a long time. Please assume they still work. (at least since Clockwork 0.94)
+> [!TIP]  
+> I have updated the website files to be compatiable with newer versions of MYSQL. I have not tested these plugins in a long time. Please assume they still work. (at least since Clockwork 0.94)
 
 Please Note:
 
@@ -70,7 +76,6 @@ Support
 ----
 I provide support for all my plugins including debuging and installation for plugins which have **webserver** parts.
 
-You can contact me at: tru@trurascalz.tk
 
 
     
